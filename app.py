@@ -6,8 +6,18 @@ import database as db
 from streamlit_option_menu import option_menu
 from components.dashboard import display_dashboard
 from dashboard.dashboard_page import dashboard_page
-#########COngifuration#####################
+######### Configuration #####################
 
+def initialize_session_state():
+    if 'name' not in st.session_state:
+        st.session_state['name'] = None
+    if 'authentication_status' not in st.session_state:
+        st.session_state['authentication_status'] = None
+    if 'username' not in st.session_state:
+        st.session_state['username'] = None
+
+initialize_session_state()
+    
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
 # Configuration for static values
@@ -50,11 +60,9 @@ def create_login_widget(credentials):
     name, authentication_status, username = authenticator.login("Login", "main")
     return name, authentication_status, username, authenticator
 
-
 @st.cache_data
 def user_credentials(users):
-    print("credentials")
-    users = db.fetch_all_users()
+    
     credentials = {"usernames": {}}
 
     for user in users:
@@ -71,50 +79,50 @@ def user_credentials(users):
 
     return credentials
 
+def get_session_value(key, default=None):
+    return st.session_state.get(key, default)
 
 def display_sidebar():
     with st.sidebar:
         return option_menu(None, MENU_OPTIONS, icons=MENU_ICONS, menu_icon="cast", default_index=0, styles=MENU_STYLES)
 
 def main():
-    if 'name' not in st.session_state:
-        st.session_state['name'] = None
-    users = db.fetch_all_users()
-    credentials = user_credentials(users)
+    try:
+        users = db.fetch_all_users()
+        credentials = user_credentials(users)
         
-    # Step 3: Creating a Login Widget
-    col1,col2,col3 = st.columns([1,2,1])
-    with col2:
-        placeholder = st.empty()
-        placeholder.title("Thoth")
-        name, authentication_status, username, authenticator = create_login_widget(credentials)
-        print(st.session_state.authentication_status)
-    # If not authenticated, display the relevant error or warning and hide sidebar collapse control
-    if authentication_status == False:
-        col2.error("Username/password is incorrect")
+        # Step 3: Creating a Login Widget
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            placeholder = st.empty()
+            placeholder.title("Thoth")
+            name, authentication_status, username, authenticator = create_login_widget(credentials)
+            st.session_state['authentication_status'] = authentication_status
         
+        auth_status = get_session_value('authentication_status')
         
-    elif authentication_status == None:
-        col2.warning("Please enter your username and password")
-        
-        
-    else: 
-        print("Logged in successfully")
-        placeholder.empty()
-        selected_option = display_sidebar()
-        authenticator.logout("Logout", "sidebar")
+        if auth_status == False:
+            col2.error("Username/password is incorrect")
+        elif auth_status == None:
+            col2.warning("Please enter your username and password")
+        else: 
+            placeholder.empty()
+            selected_option = display_sidebar()
+            authenticator.logout("Logout", "sidebar")
 
-        if selected_option == "Dashboard":
-            dashboard_page(username, name)
-            # display_dashboard(name, username)
-        elif selected_option == "Talk to Thoth":
-            st.title("Talk to Thoth")
-            st.subheader("Ask your questions here")
-        elif selected_option == "Books/Notes":
-            st.title("Books/Notes")
-            st.subheader("Books/Notes")
-        elif selected_option == "Settings":
-            st.title("Settings")
-            st.subheader("Settings")
+            if selected_option == "Dashboard":
+                dashboard_page(username, name)
+            elif selected_option == "Talk to Thoth":
+                st.title("Talk to Thoth")
+                st.subheader("Ask your questions here")
+            elif selected_option == "Books/Notes":
+                st.title("Books/Notes")
+                st.subheader("Books/Notes")
+            elif selected_option == "Settings":
+                st.title("Settings")
+                st.subheader("Settings")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+
 if __name__ == "__main__":
     main()
