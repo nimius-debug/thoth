@@ -77,6 +77,8 @@ def display_sidebar():
         return option_menu(None, MENU_OPTIONS, icons=MENU_ICONS, menu_icon="cast", default_index=0, styles=MENU_STYLES)
 
 def main():
+    if 'name' not in st.session_state:
+        st.session_state['name'] = None
     users = db.fetch_all_users()
     credentials = user_credentials(users)
         
