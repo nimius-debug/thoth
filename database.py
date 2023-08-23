@@ -7,35 +7,35 @@ import streamlit as st
 
 
 DETA_KEY = st.secrets["DETA_KEY"]
-
+print(DETA_KEY)
 # Initialize with a project key
 deta = Deta(DETA_KEY)
 
 # This is how to create/connect a database
 db = deta.Base("user_db")
 
-
+@st.cache_data
 def insert_user(username, name, password):
     """Returns the user on a successful user creation, otherwise raises and error"""
     return db.put({"key": username, "name": name, "password": password})
 
-
+@st.cache_data
 def fetch_all_users():
     """Returns a dict of all users"""
     res = db.fetch()
     return res.items
 
-
+@st.cache_data
 def get_user(username):
     """If not found, the function will return None"""
     return db.get(username)
 
-
+@st.cache_data
 def update_user(username, updates):
     """If the item is updated, returns None. Otherwise, an exception is raised"""
     return db.update(updates, username)
 
-
+@st.cache_data
 def delete_user(username):
     """Always returns None, even if the key does not exist"""
     return db.delete(username)

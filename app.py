@@ -51,7 +51,7 @@ def create_login_widget(credentials):
     return name, authentication_status, username, authenticator
 
 
-
+@st.cache_data
 def user_credentials(users):
     print("credentials")
     users = db.fetch_all_users()
