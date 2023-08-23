@@ -51,7 +51,7 @@ def create_login_widget(credentials):
     return name, authentication_status, username, authenticator
 
 
-@st.cache_data
+
 def user_credentials(users):
     print("credentials")
     users = db.fetch_all_users()
@@ -103,7 +103,7 @@ def main():
         authenticator.logout("Logout", "sidebar")
 
         if selected_option == "Dashboard":
-            dashboard_page()
+            dashboard_page(username, name)
             # display_dashboard(name, username)
         elif selected_option == "Talk to Thoth":
             st.title("Talk to Thoth")

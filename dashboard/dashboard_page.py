@@ -3,15 +3,29 @@ import json
 import streamlit as st
 
 from streamlit import session_state as state
-from streamlit_elements import elements, sync, event
+from streamlit_elements import elements, sync, event, mui
 from types import SimpleNamespace
 
 from dashboard import Dashboard, Editor, Card, DataGrid, Radar, Pie, Player
 
 
-def dashboard_page():
+def dashboard_page(username, name):
     st.title("")
-
+    col1, col2 = st.columns([6, 1],gap="large")
+    with col1 :
+        st.header(f"Welcome {username}")
+        with elements("student_details"):
+            mui.TextField(label="Student Name", value=name,shrink=True,width="auto")
+            mui.TextField(label="School Name", value="MIT")
+            mui.TextField(label="Roll Number",value="123456789")
+            mui.TextField(label="Department")
+            mui.TextField(label="Year")
+        # st.subheader("MIT, 3th Year")
+    with col2:
+        st.image(f"https://robohash.org/{name}.png",use_column_width=True )
+    
+    st.divider()
+    st.markdown('#') 
     if "w" not in state:
         board = Dashboard()
         w = SimpleNamespace(
