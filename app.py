@@ -4,9 +4,10 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import database as db
 from streamlit_option_menu import option_menu
-from components.dashboard import display_dashboard
+
 from dashboard.dashboard_page import dashboard_page
 from book_notes.book_note_page import book_note_page
+from thoth_chat.thoth_page import thoth_page
 ######### Configuration #####################
 
 def initialize_session_state():
@@ -114,7 +115,7 @@ def main():
             if selected_option == "Dashboard":
                 dashboard_page(username, name)
             elif selected_option == "Talk to Thoth":
-                st.title("Talk to Thoth")
+                thoth_page()
                 st.subheader("Ask your questions here")
             elif selected_option == "Books/Notes":
                 book_note_page()
