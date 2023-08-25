@@ -30,12 +30,12 @@ def dashboard_page(username, name):
         board = Dashboard()
         w = SimpleNamespace(
             dashboard=board,
-            editor=Editor(board, 0, 0, 3, 3, minW=3, minH=3),
+            editor=Editor(board, 0, 0, 5, 5, minW=3, minH=3),
             # player=Player(board, 0, 12, 6, 10, minH=5),
-            pie=Pie(board, 0, 0, 6, 7, minW=3, minH=4),
+            pie=Pie(board, 0, 5, 5, 6, minW=3, minH=4),
             radar=Radar(board, 12, 7, 3, 7, minW=2, minH=4),
             card=Card(board, 6, 7, 3, 7, minW=2, minH=4),
-            data_grid=DataGrid(board, 6, 13, 6, 7, minH=4),
+            data_grid=DataGrid(board, 0, 10, 5, 5, minH=4),
         )
         state.w = w
 

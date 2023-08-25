@@ -6,6 +6,7 @@ import database as db
 from streamlit_option_menu import option_menu
 from components.dashboard import display_dashboard
 from dashboard.dashboard_page import dashboard_page
+from book_notes.book_note_page import book_note_page
 ######### Configuration #####################
 
 def initialize_session_state():
@@ -116,8 +117,7 @@ def main():
                 st.title("Talk to Thoth")
                 st.subheader("Ask your questions here")
             elif selected_option == "Books/Notes":
-                st.title("Books/Notes")
-                st.subheader("Books/Notes")
+                book_note_page()
             elif selected_option == "Settings":
                 st.title("Settings")
                 st.subheader("Settings")
