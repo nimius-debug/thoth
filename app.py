@@ -99,8 +99,8 @@ def main():
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             placeholder = st.empty()
-            st.info("Demo credentials|  username: pparker, password: abc123")
-            st.info("Demo credentials|  username: rmiller, password: def456")
+            placeholder.info("Demo credentials|  username: pparker, password: abc123")
+            placeholder.info("Demo credentials|  username: rmiller, password: def456")
             placeholder.title("Thoth")
             name, authentication_status, username, authenticator = create_login_widget(credentials)
             st.session_state['authentication_status'] = authentication_status
