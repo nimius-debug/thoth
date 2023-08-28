@@ -4,11 +4,13 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import database as db
 from streamlit_option_menu import option_menu
-
+st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
 from dashboard.dashboard_page import dashboard_page
 from book_notes.book_note_page import book_note_page
 from thoth_chat.thoth_page import thoth_page
 ######### Configuration #####################
+# emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
+
 
 def initialize_session_state():
     if 'name' not in st.session_state:
@@ -20,8 +22,7 @@ def initialize_session_state():
 
 initialize_session_state()
     
-# emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
-st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
+
 # Configuration for static values
 MENU_OPTIONS = ["Dashboard", "Talk to Thoth", "Books/Notes", 'Settings']
 MENU_ICONS = ['speedometer2', 'chat-dots', "journal-arrow-up", 'gear']
@@ -89,6 +90,7 @@ def display_sidebar():
         return option_menu(None, MENU_OPTIONS, icons=MENU_ICONS, menu_icon="cast", default_index=0, styles=MENU_STYLES)
 
 def main():
+    
     try:
         users = db.fetch_all_users()
         credentials = user_credentials(users)
@@ -97,6 +99,8 @@ def main():
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             placeholder = st.empty()
+            st.info("Demo credentials|  username: pparker, password: abc123")
+            st.info("Demo credentials|  username: rmiller, password: def456")
             placeholder.title("Thoth")
             name, authentication_status, username, authenticator = create_login_widget(credentials)
             st.session_state['authentication_status'] = authentication_status
