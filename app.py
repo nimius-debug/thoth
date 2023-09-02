@@ -4,6 +4,8 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import database as db
 from streamlit_option_menu import option_menu
+from PIL import Image
+
 st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
 from dashboard.dashboard_page import dashboard_page
 from book_notes.book_note_page import book_note_page
@@ -99,9 +101,16 @@ def main():
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             placeholder = st.empty()
-            placeholder.info("Demo credentials|  username: pparker, password: abc123")
-            placeholder.info("Demo credentials|  username: rmiller, password: def456")
-            placeholder.title("Thoth")
+            img = Image.open("img/thoth.png")
+            # Replace the chart with several elements:
+            with placeholder.container():
+                st.info("Demo credentials|  username: pparker, password: abc123")
+                st.info("Demo credentials|  username: rmiller, password: def456")
+                col11, col22, col33 = st.columns([1, 1, 1])
+                with col22:
+                    st.image(img,use_column_width=True )
+            
+            # placeholder.title("Thoth")
             name, authentication_status, username, authenticator = create_login_widget(credentials)
             st.session_state['authentication_status'] = authentication_status
         
