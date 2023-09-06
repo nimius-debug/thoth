@@ -7,7 +7,8 @@ from streamlit_option_menu import option_menu
 from PIL import Image
 
 st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
-from dashboard.dashboard_page import dashboard_page
+# from dashboard.dashboard_page import dashboard_page
+from min_dashboard.dashboard import display_dashboard
 from book_notes.book_note_page import book_note_page
 from thoth_chat.thoth_page import thoth_page
 ######### Configuration #####################
@@ -101,7 +102,7 @@ def main():
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             placeholder = st.empty()
-            img = Image.open("img/thoth.png")
+            img = Image.open("img/thoth_white1.png")
             # Replace the chart with several elements:
             with placeholder.container():
                 st.info("Demo credentials|  username: pparker, password: abc123")
@@ -126,7 +127,7 @@ def main():
             authenticator.logout("Logout", "sidebar")
 
             if selected_option == "Dashboard":
-                dashboard_page(username, name)
+                display_dashboard( name,username)
             elif selected_option == "Talk to Thoth":
                 thoth_page()
                 st.subheader("Ask your questions here")

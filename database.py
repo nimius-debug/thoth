@@ -19,7 +19,7 @@ db = deta.Base("user_db")
 @st.cache_data
 def insert_user(username, name, password):
     """Returns the user on a successful user creation, otherwise raises and error"""
-    return db.put({"key": username, "name": name, "password": password})
+    return db.put({"key": username, "name": name, "password": password, "school": {}, })
 
 @st.cache_data
 def fetch_all_users():
@@ -31,6 +31,11 @@ def fetch_all_users():
 def get_user(username):
     """If not found, the function will return None"""
     return db.get(username)
+
+@st.cache_data
+def get_user_school(username):
+    """If not found, the function will return None"""
+    return db.get(username)["school"]
 
 @st.cache_data
 def update_user(username, updates):
