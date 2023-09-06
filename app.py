@@ -6,6 +6,7 @@ import database as db
 from streamlit_option_menu import option_menu
 from PIL import Image
 
+
 st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
 # from dashboard.dashboard_page import dashboard_page
 from min_dashboard.dashboard import display_dashboard
@@ -24,7 +25,8 @@ def initialize_session_state():
         st.session_state['username'] = None
 
 initialize_session_state()
-    
+
+
 
 # Configuration for static values
 MENU_OPTIONS = ["Dashboard", "Talk to Thoth", "Books/Notes", 'Settings']

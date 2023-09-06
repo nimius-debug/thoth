@@ -16,10 +16,11 @@ deta = Deta(DETA_KEY)
 # This is how to create/connect a database
 db = deta.Base("user_db")
 
+###################Insert################
 @st.cache_data
 def insert_user(username, name, password):
     """Returns the user on a successful user creation, otherwise raises and error"""
-    return db.put({"key": username, "name": name, "password": password, "school": {}, })
+    return db.put({"key": username, "name": name, "password": password, "school": {},  "events": []})
 
 @st.cache_data
 def fetch_all_users():
@@ -32,11 +33,24 @@ def get_user(username):
     """If not found, the function will return None"""
     return db.get(username)
 
+####################################
+###############SCHOOL################
 @st.cache_data
 def get_user_school(username):
     """If not found, the function will return None"""
     return db.get(username)["school"]
 
+###############EVENTS################
+@st.cache_data
+def get_user_events(username):
+    user_data = db.get(username)
+    return user_data.get("events", []) if user_data else []
+
+@st.cache_data
+def update_user_events(username, new_events):
+    return db.update({"events": new_events}, username)
+
+####################################
 @st.cache_data
 def update_user(username, updates):
     """If the item is updated, returns None. Otherwise, an exception is raised"""
