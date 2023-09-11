@@ -9,6 +9,8 @@ from langchain.callbacks import StreamlitCallbackHandler
 import streamlit as st
 
 def thoth_page():
+    with st.sidebar:
+        st.radio("Select a language model", ["GPT-3", "GPT-J"])
     llm = OpenAI(temperature=0, streaming=True)
     tools = load_tools(["ddg-search"])
     agent = initialize_agent(

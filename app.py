@@ -5,6 +5,8 @@ import streamlit_authenticator as stauth
 import database as db
 from streamlit_option_menu import option_menu
 from PIL import Image
+from streamlit_extras.app_logo import add_logo
+
 
 
 st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
@@ -12,6 +14,7 @@ st.set_page_config(page_title="Thoth", page_icon="📚",layout="wide")
 from min_dashboard.dashboard import display_dashboard
 from book_notes.book_note_page import book_note_page
 from thoth_chat.thoth_page import thoth_page
+from settings.settings_page import setting_p
 ######### Configuration #####################
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 
@@ -92,10 +95,12 @@ def get_session_value(key, default=None):
 
 def display_sidebar():
     with st.sidebar:
+        img_logo = Image.open("img/thoth_s.webp")
+        st.image(img_logo,width=60 )
         return option_menu(None, MENU_OPTIONS, icons=MENU_ICONS, menu_icon="cast", default_index=0, styles=MENU_STYLES)
 
 def main():
-    
+        
     try:
         users = db.fetch_all_users()
         credentials = user_credentials(users)
@@ -104,7 +109,7 @@ def main():
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             placeholder = st.empty()
-            img = Image.open("img/thoth_white1.png")
+            img = Image.open("img/thoth_white1.webp")
             # Replace the chart with several elements:
             with placeholder.container():
                 st.info("Demo credentials|  username: pparker, password: abc123")
@@ -136,8 +141,8 @@ def main():
             elif selected_option == "Books/Notes":
                 book_note_page()
             elif selected_option == "Settings":
-                st.title("Settings")
-                st.subheader("Settings")
+                setting_p(username, name)
+                
     except Exception as e:
         st.error(f"An error occurred: {e}")
 

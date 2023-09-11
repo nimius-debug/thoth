@@ -20,7 +20,7 @@ db = deta.Base("user_db")
 @st.cache_data
 def insert_user(username, name, password):
     """Returns the user on a successful user creation, otherwise raises and error"""
-    return db.put({"key": username, "name": name, "password": password, "school": {},  "events": []})
+    return db.put({"key": username, "name": name, "password": password, "school": {},  "events": [], "classes": {}})
 
 @st.cache_data
 def fetch_all_users():
@@ -51,6 +51,39 @@ def update_user_events(username, new_events):
     return db.update({"events": new_events}, username)
 
 ####################################
+###############Classs################
+# @st.cache_data
+# def get_user_class(username):
+#     """If not found, the function will return None"""
+#     return db.get(username)["classes"]
+@st.cache_data
+def get_user_class(username):
+    """If not found, the function will return None"""
+    user_data = db.get(username)
+    if user_data is None:
+        return None
+    return user_data.get("classes", None)
+
+@st.cache_data
+def update_user_class(username, new_class):
+    try:
+        current_data = db.get(username)
+        if current_data is None:
+            print(f"No data found for user {username}")
+            return False
+        current_data['classes'] = new_class
+        result = db.put(current_data, key=username)
+        if result:
+            print(f"Successfully updated database for user {username}.")
+            return True
+        else:
+            print(f"Failed to update database for user {username}.")
+            return False
+    except Exception as e:
+        print(f"Database error: {e}")
+        return False
+    
+###############UPDATE################
 @st.cache_data
 def update_user(username, updates):
     """If the item is updated, returns None. Otherwise, an exception is raised"""
