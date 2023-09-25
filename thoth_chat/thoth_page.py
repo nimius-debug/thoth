@@ -1,13 +1,15 @@
 from langchain.callbacks import StreamlitCallbackHandler
 import streamlit as st
-import database as db
+from qdrant_db import QdrantSingleton
 
-st_callback = StreamlitCallbackHandler(st.container())
+# import database as db
 
-from langchain.llms import OpenAI
-from langchain.agents import AgentType, initialize_agent, load_tools
-from langchain.callbacks import StreamlitCallbackHandler
-import streamlit as st
+
+
+# from langchain.llms import OpenAI
+# from langchain.agents import AgentType, initialize_agent, load_tools
+
+
 
 # ########################################################################
 # from langchain.chat_models import ChatOpenAI
@@ -45,8 +47,7 @@ import streamlit as st
 
 ########################################################################
 def thoth_page():
-    from qdrant_db import QdrantSingleton
-    import streamlit as st
+    # st_callback = StreamlitCallbackHandler(st.container())
     # from book_notes.book_note_page import initialize_qdrant_client, get_vector_store
     # Initialization
         
