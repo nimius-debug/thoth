@@ -1,4 +1,3 @@
-from threading import Lock
 import streamlit as st
 import qdrant_client
 from langchain.vectorstores import Qdrant
@@ -7,11 +6,9 @@ from langchain.embeddings import OpenAIEmbeddings
 
 class QdrantSingleton:
     _instance = None
-    _lock = Lock()
     
     def __new__(cls):
-        with cls._lock:
-            if cls._instance is None:
+        if cls._instance is None:
                 cls._instance = super(QdrantSingleton, cls).__new__(cls)
                 cls._instance.initialize_qdrant_client()
         return cls._instance

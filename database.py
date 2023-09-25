@@ -1,8 +1,8 @@
-import os
+
 from deta import Deta  # pip install deta
 # from dotenv import load_dotenv  # pip install python-dotenv
 import streamlit as st
-from typing import Optional
+
 
 
 
