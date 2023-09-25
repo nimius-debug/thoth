@@ -1,5 +1,6 @@
 
 import streamlit as st
+import logging
 import qdrant_client
 from langchain.vectorstores import Qdrant
 from qdrant_client.http import models
@@ -9,7 +10,7 @@ class QdrantSingleton:
     _instance = None
     
     def __new__(cls):
-        print("Creating a new instance...")
+        logging.info("Creating a new instance...")
         if cls._instance is None:
                 cls._instance = super(QdrantSingleton, cls).__new__(cls)
                 cls._instance.initialize_qdrant_client()
@@ -17,7 +18,7 @@ class QdrantSingleton:
         return cls._instance
 
     def initialize_qdrant_client(self):
-        print("Initializing Qdrant client...")
+        logging.warning("Initializing Qdrant client...")
         QDRANT_API_KEY = st.secrets["QDRANT_API_KEY"]
         QDRANT_HOST = st.secrets["QDRANT_HOST"]
 
