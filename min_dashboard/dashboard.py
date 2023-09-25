@@ -165,7 +165,7 @@ def display_dashboard(name, username):
                     edited_df = update_exams_column(edited_df)  # Update 'exams' based on individual exams
                     st.session_state.classes_data = edited_df  # Update the session state
                     db.update_user_class(username, edited_df.to_dict('records'))
-                    st.experimental_rerun()  # Rerun the app to reflect the changes
+                    st.rerun()  # Rerun the app to reflect the changes
             
     # Display the classes metrics
      ##############################Metrics###############################
@@ -308,11 +308,11 @@ def display_dashboard(name, username):
                 
                 # Show a confirmation message
                 st.toast(f"Deleted event {event_id}")
-                st.experimental_rerun()
+                st.rerun()
                 
         if st.button("Clear All Events"):
             st.session_state.events = []
             db.update_user_events(username, [])
-            st.experimental_rerun()
+            st.rerun()
             
     ##############################CALENDAR################################

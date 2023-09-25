@@ -99,7 +99,7 @@ def book_note_page(username):
                             x = qdrant_singleton.delete_points_associated_with_file(filename=file, collection_name= username)
                             print(x)
                     st.toast(f"Deleted vectors associated with {file}")
-                    st.experimental_rerun()
+                    st.rerun()
     except Exception as e:
         st.write(f"An error occurred: {e}")
    
