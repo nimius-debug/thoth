@@ -13,6 +13,7 @@ class QdrantSingleton:
         if cls._instance is None:
                 cls._instance = super(QdrantSingleton, cls).__new__(cls)
                 cls._instance.initialize_qdrant_client()
+        print("Returning the instance...", cls._instance)
         return cls._instance
 
     def initialize_qdrant_client(self):
@@ -25,9 +26,11 @@ class QdrantSingleton:
             url=QDRANT_HOST
         )
         existing_collections = self.client.get_collections()  # Assuming this returns a list of existing collections
+        print("Existing collections: ", existing_collections)
         username = st.session_state['username']
         
         if username not in existing_collections:
+            print("Creating a new collection...")
             self.client.recreate_collection(
                 collection_name=username,
                 vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),
