@@ -7,7 +7,7 @@ from typing import Optional
 
 
 DETA_KEY = st.secrets["DETA_KEY"]
-print(DETA_KEY)
+
 # Initialize with a project key
 deta = Deta(DETA_KEY)
 
@@ -22,7 +22,7 @@ def insert_user(username, name, password):
     """Returns the user on a successful user creation, otherwise raises and error"""
     return db.put({"key": username, "name": name, "password": password, "school": {},  "events": [], "classes": {}})
 
-@st.cache_data
+
 def fetch_all_users():
     """Returns a dict of all users"""
     res = db.fetch()
@@ -98,7 +98,6 @@ def delete_user(username):
 # Create/connect to a Deta Drive instance
 drive = deta.Drive("knowledge_base")
 
-@st.cache_data
 def put_file(username, file_name, file_data):
     try:
         unique_filename = f"{username}_{file_name}"
@@ -132,7 +131,6 @@ def list_files(username):
         return f"An error occurred while listing: {e}"
 
 # Delete a file
-@st.cache_data
 def delete_file(username, file_name):
     try:
         unique_filename = f"{username}_{file_name}"
@@ -140,3 +138,18 @@ def delete_file(username, file_name):
         return f"Successfully deleted {file_name}"
     except Exception as e:
         return f"An error occurred while deleting: {e}"
+    
+# Check if a file exists for a given username and file name
+def file_exists(username, file_name):
+    try:
+        # Fetch the list of all files for the username.
+        all_files = drive.list()
+        # Extract the 'names' list from the returned dictionary.
+        file_names = all_files.get('names', [])
+        # Create the unique filename to look for.
+        unique_filename = f"{username}_{file_name}"
+        # Check if the unique filename exists in the list of all filenames.
+        return unique_filename in file_names
+    except Exception as e:
+        print(f"An error occurred while checking file existence: {e}")
+        return False

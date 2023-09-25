@@ -5,7 +5,7 @@ import streamlit_authenticator as stauth
 import database as db
 from streamlit_option_menu import option_menu
 from PIL import Image
-from streamlit_extras.app_logo import add_logo
+
 
 
 
@@ -112,8 +112,9 @@ def main():
             img = Image.open("img/thoth_white1.webp")
             # Replace the chart with several elements:
             with placeholder.container():
-                st.info("Demo credentials|  username: pparker, password: abc123")
+                st.info("Demo credentials|  username: pparker, password: def456")
                 st.info("Demo credentials|  username: rmiller, password: def456")
+                st.markdown("---")
                 col11, col22, col33 = st.columns([1, 1, 1])
                 with col22:
                     st.image(img,use_column_width=True )
@@ -137,9 +138,8 @@ def main():
                 display_dashboard( name,username)
             elif selected_option == "Talk to Thoth":
                 thoth_page()
-                st.subheader("Ask your questions here")
             elif selected_option == "Books/Notes":
-                book_note_page()
+                book_note_page(username)
             elif selected_option == "Settings":
                 setting_p(username, name)
                 
